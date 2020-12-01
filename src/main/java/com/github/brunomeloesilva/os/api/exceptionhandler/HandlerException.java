@@ -10,21 +10,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.github.brunomeloesilva.os.domain.exception.EmailJaExisteException;
-
 @ControllerAdvice
 public class HandlerException extends ResponseEntityExceptionHandler {
-
-	@ExceptionHandler(EmailJaExisteException.class)
-	public ResponseEntity<Object> handlerEmailJaExisteException(EmailJaExisteException ex, WebRequest request) {
-		var statusHttp = HttpStatus.BAD_REQUEST;
-		var problemMessage = new ProblemMessage(OffsetDateTime.now(), statusHttp.value(), ex.getMessage(), null); 
-		return handleExceptionInternal(ex, problemMessage, null, statusHttp, request);
-	}
 	
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
