@@ -61,7 +61,7 @@ public class ClienteService {
 	}
 	
 	private ClienteModel toClienteModel(ClienteRepresentation clienteRepresentation) {
-		ClienteModel clienteModel =  modelMapper.map(clienteRepresentation, ClienteModel.class);
+		ClienteModel clienteModel =  modelMapper.map(clienteRepresentation, ClienteModel.class);;
 		clienteModel.setPk(clienteRepresentation.getId());
 		return clienteModel;
 	}
