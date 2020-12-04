@@ -82,7 +82,7 @@ public class OrdemServicoModel {
 	public void setFechamento(OffsetDateTime fechamento) {
 		this.fechamento = fechamento;
 	}
-	
+
 	public List<ComentarioModel> getComentarios() {
 		return comentarios;
 	}
