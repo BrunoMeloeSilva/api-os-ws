@@ -26,7 +26,7 @@ public class OrdemServicoModel {
 	private ClienteModel fkcliente;
 	private String descricao;
 	@Enumerated(EnumType.STRING)
-	private Status status;
+	private StatusOS status;
 	private OffsetDateTime abertura;
 	private OffsetDateTime fechamento;
 	@OneToMany(mappedBy = "fkos")
@@ -40,8 +40,6 @@ public class OrdemServicoModel {
 	public void setFkcliente(ClienteModel fkcliente) {
 		this.fkcliente = fkcliente;
 	}
-
-	private enum Status { ABERTA, FINALIZADA, CANCELADA }
 
 	public Long getPk() {
 		return pk;
@@ -59,11 +57,11 @@ public class OrdemServicoModel {
 		this.descricao = descricao;
 	}
 
-	public Status getStatus() {
+	public StatusOS getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(StatusOS status) {
 		this.status = status;
 	}
 

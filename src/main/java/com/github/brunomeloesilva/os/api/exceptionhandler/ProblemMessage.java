@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
 public class ProblemMessage {
+	
 	private OffsetDateTime timestamp;
 	private Integer httpStatus;
 	private String titleMessage;

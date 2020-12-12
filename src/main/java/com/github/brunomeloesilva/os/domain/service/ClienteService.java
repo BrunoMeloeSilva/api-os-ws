@@ -49,7 +49,7 @@ public class ClienteService {
 	
 	/* Métodos Utilitártios da Classe */
 	
-	private ClienteRepresentation toClienteRepresentation(ClienteModel clienteModel) {
+	protected ClienteRepresentation toClienteRepresentation(ClienteModel clienteModel) {
 		ClienteRepresentation clienteRepresentation =  modelMapper.map(clienteModel, ClienteRepresentation.class);
 		clienteRepresentation.setId(clienteModel.getPk());
 		return clienteRepresentation;

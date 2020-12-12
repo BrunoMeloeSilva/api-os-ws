@@ -18,4 +18,5 @@ public class ComentarioModel {
 	@ManyToOne
 	@JoinColumn(name = "fkos")
 	private OrdemServicoModel fkos;
+	//TODO: Esta classe não está completamente implementada.
 }
