@@ -19,6 +19,7 @@ public class ComentarioModel {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonProperty("id")
 	private Long pk;
 	@ManyToOne
 	@JoinColumn(name = "fkos")

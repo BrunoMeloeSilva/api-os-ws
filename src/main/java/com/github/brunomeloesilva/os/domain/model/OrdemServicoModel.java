@@ -23,7 +23,7 @@ public class OrdemServicoModel {
 	private Long pk;
 	@ManyToOne
 	@JoinColumn(name = "fkcliente")
-	private ClienteModel fkcliente;
+	private ClienteModel cliente;
 	private String descricao;
 	@Enumerated(EnumType.STRING)
 	private StatusOS status;
@@ -33,12 +33,12 @@ public class OrdemServicoModel {
 	private List<ComentarioModel> comentarios;
 	
 	
-	public ClienteModel getFkcliente() {
-		return fkcliente;
+	public ClienteModel getCliente() {
+		return cliente;
 	}
 
-	public void setFkcliente(ClienteModel fkcliente) {
-		this.fkcliente = fkcliente;
+	public void setCliente(ClienteModel cliente) {
+		this.cliente = cliente;
 	}
 
 	public Long getPk() {

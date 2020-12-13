@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.brunomeloesilva.os.api.representation.ComentarioInput;
+import com.github.brunomeloesilva.os.domain.exception.OrdemServicoNaoExisteException;
 import com.github.brunomeloesilva.os.domain.model.ComentarioModel;
 import com.github.brunomeloesilva.os.domain.model.OrdemServicoModel;
 import com.github.brunomeloesilva.os.domain.repository.ComentarioRepository;
@@ -32,11 +33,9 @@ public class ComentarioController {
 	OrdemServicoRepository ordemServicoRepository;
 	
 	//TODO Deveria retornar 204 No Content, quando não houver comentarios registrados no DB
-	//TODO Deveria usar representation model
-	//TODO Deveria usar algo mais especifico que RuntimeException
 	@GetMapping()
 	public List<ComentarioModel> getAllComentarioModels(@PathVariable Long ordemServicoId){
-		OrdemServicoModel ordemServicoModel = ordemServicoRepository.findById(ordemServicoId).orElseThrow(() -> new RuntimeException("Não existe Ordem de Serviço para o Id informado."));
+		OrdemServicoModel ordemServicoModel = ordemServicoRepository.findById(ordemServicoId).orElseThrow(() -> new OrdemServicoNaoExisteException("Não existe Ordem de Serviço para o Id informado."));
 		List<ComentarioModel> listComentarioModels = ordemServicoModel.getComentarios();
 		return listComentarioModels;
 	}
@@ -44,7 +43,7 @@ public class ComentarioController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ComentarioModel addComentarioModel(@PathVariable Long ordemServicoId, @Valid @RequestBody ComentarioInput comentarioInput) {
-		OrdemServicoModel ordemServicoModel = ordemServicoRepository.findById(ordemServicoId).orElseThrow(()->new RuntimeException("Não existe Ordem de Serviço para o Id informado."));
+		OrdemServicoModel ordemServicoModel = ordemServicoRepository.findById(ordemServicoId).orElseThrow(()->new OrdemServicoNaoExisteException("Não existe Ordem de Serviço para o Id informado."));
 		ComentarioModel comentarioModel = new ComentarioModel();
 		comentarioModel.setFkos(ordemServicoModel);
 		comentarioModel.setDescricao(comentarioInput.getComentario());

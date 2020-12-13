@@ -55,8 +55,7 @@ public class OrdemServicoService {
 	private OrdemServicoRepresentation toOrdemServicoRepresentation(OrdemServicoModel ordemServicoModel) {
 		OrdemServicoRepresentation ordemServicoRepresentation =  modelMapper.map(ordemServicoModel, OrdemServicoRepresentation.class);
 		ordemServicoRepresentation.setId(ordemServicoModel.getPk());
-		//TODO: Esse getFkcliente na verdade retorna um cliente inteiro e a chamada do metodo nao deixa isso claro
-		ordemServicoRepresentation.setCliente(clienteService.toClienteRepresentation(ordemServicoModel.getFkcliente()));
+		ordemServicoRepresentation.setCliente(clienteService.toClienteRepresentation(ordemServicoModel.getCliente()));
 		return ordemServicoRepresentation;
 	}
 	
@@ -69,7 +68,7 @@ public class OrdemServicoService {
 		OrdemServicoModel ordemServicoModel =  modelMapper.map(ordemServicoInput, OrdemServicoModel.class);
 		ClienteModel clienteModel = clienteRepository.findById(ordemServicoInput.getClienteId()).orElseThrow(
 				() -> new ClienteNaoExisteException("O id do cliente passado não existe."));
-		ordemServicoModel.setFkcliente(clienteModel);
+		ordemServicoModel.setCliente(clienteModel);
 		return ordemServicoModel;
 	}
 
