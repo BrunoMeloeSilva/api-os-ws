@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.validation.ConstraintViolationException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.brunomeloesilva.os.api.representation.ClienteRepresentation;
+import com.github.brunomeloesilva.os.domain.exception.JsonInvalidoException;
 import com.github.brunomeloesilva.os.domain.model.ClienteModel;
 import com.github.brunomeloesilva.os.domain.repository.ClienteRepository;
 
@@ -32,7 +35,14 @@ public class ClienteService {
 	}
 	
 	public ClienteRepresentation save(ClienteRepresentation clienteRepresentation) {
-		ClienteModel clienteModel = clienteRepository.save(toClienteModel(clienteRepresentation)); 
+		
+		ClienteModel clienteModel = null;
+		try {
+			clienteModel = clienteRepository.save(toClienteModel(clienteRepresentation)); 
+		} catch (ConstraintViolationException error) {
+			throw new JsonInvalidoException("O JSON passado não é válido !");
+			//TODO Poderia fazer um tratamento melhor que este, mostrando o detalhes do erro.
+		}
 		return toClienteRepresentation(clienteModel);
 	}
 	

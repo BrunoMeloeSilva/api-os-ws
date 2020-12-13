@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.github.brunomeloesilva.os.domain.exception.ClienteNaoExisteException;
+import com.github.brunomeloesilva.os.domain.exception.JsonInvalidoException;
 import com.github.brunomeloesilva.os.domain.exception.OrdemServicoNaoExisteException;
 
 @ControllerAdvice
@@ -37,6 +38,13 @@ public class HandlerException extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(OrdemServicoNaoExisteException.class)
 	public ResponseEntity<Object> handlerOrdemServicoNaoExisteException(OrdemServicoNaoExisteException ex, WebRequest request) {
+		var status = HttpStatus.BAD_REQUEST;
+		var problemMessage = new ProblemMessage(OffsetDateTime.now(), status.value(), ex.getMessage(), null); 
+		return handleExceptionInternal(ex, problemMessage, null, status, request);
+	}
+	
+	@ExceptionHandler(JsonInvalidoException.class)
+	public ResponseEntity<Object> handlerJsonInvalidoException(JsonInvalidoException ex, WebRequest request) {
 		var status = HttpStatus.BAD_REQUEST;
 		var problemMessage = new ProblemMessage(OffsetDateTime.now(), status.value(), ex.getMessage(), null); 
 		return handleExceptionInternal(ex, problemMessage, null, status, request);

@@ -49,8 +49,6 @@ public class ClienteController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ClienteRepresentation addCliente(@RequestBody ClienteRepresentation clienteRepresentation) {
-		//TODO: Tratar o erro de ausencia de atributos, quando os objetos não casam.
-		//TODO: Tratar o erro de presenca de atributos com valores errados.
 		return clienteService.save(clienteRepresentation);
 	}
 	
