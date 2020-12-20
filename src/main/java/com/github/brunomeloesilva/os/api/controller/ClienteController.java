@@ -1,13 +1,17 @@
 package com.github.brunomeloesilva.os.api.controller;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.brunomeloesilva.os.api.representation.ClienteRepresentation;
+import com.github.brunomeloesilva.os.domain.model.ClienteModel;
 import com.github.brunomeloesilva.os.domain.repository.ClienteRepository;
 import com.github.brunomeloesilva.os.domain.service.ClienteService;
 
@@ -68,4 +73,17 @@ public class ClienteController {
 		clienteRepository.deleteById(idCliente);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@PatchMapping("/{idCliente}")
+	public void partiallyUpdateClient(@PathVariable Long idCliente, @RequestBody Map<String, Object> fieldsToUpdate) {
+		var clienteModel = clienteRepository.findById(idCliente).get();
+		System.out.println("ANTES: "+clienteModel.toString());
+		fieldsToUpdate.forEach((attribute, value)->{
+			Field field = ReflectionUtils.findField(ClienteModel.class, attribute);
+			field.setAccessible(true);
+			ReflectionUtils.setField(field, clienteModel, value);
+		});
+		System.out.println("DEPOIS: "+clienteModel.toString());
+	}
+	
 }

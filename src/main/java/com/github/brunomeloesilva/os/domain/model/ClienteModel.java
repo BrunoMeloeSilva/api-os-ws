@@ -72,6 +72,12 @@ public class ClienteModel {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "ClienteModel [pk=" + pk + ", nome=" + nome + ", email=" + email + ", phone=" + phone + "]";
+	}
+	
+	
 	
 	
 }
