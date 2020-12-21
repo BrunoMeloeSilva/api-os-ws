@@ -77,6 +77,7 @@ public class ClienteController {
 	
 	@PatchMapping("/{idCliente}")
 	public ClienteModel partiallyUpdateClient(@PathVariable Long idCliente, @RequestBody Map<String, Object> fieldsToUpdate) {
+		//TODO Passar para a classe Service e usar Representation
 		ClienteModel clienteModelOrigin = new ObjectMapper().convertValue(fieldsToUpdate, ClienteModel.class);
 		var clienteModel = clienteRepository.findById(idCliente).get();
 		
