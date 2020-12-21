@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomeloesilva.os.api.representation.ClienteRepresentation;
 import com.github.brunomeloesilva.os.domain.model.ClienteModel;
 import com.github.brunomeloesilva.os.domain.repository.ClienteRepository;
@@ -75,15 +76,17 @@ public class ClienteController {
 	}
 	
 	@PatchMapping("/{idCliente}")
-	public void partiallyUpdateClient(@PathVariable Long idCliente, @RequestBody Map<String, Object> fieldsToUpdate) {
+	public ClienteModel partiallyUpdateClient(@PathVariable Long idCliente, @RequestBody Map<String, Object> fieldsToUpdate) {
+		ClienteModel clienteModelOrigin = new ObjectMapper().convertValue(fieldsToUpdate, ClienteModel.class);
 		var clienteModel = clienteRepository.findById(idCliente).get();
-		System.out.println("ANTES: "+clienteModel.toString());
+		
 		fieldsToUpdate.forEach((attribute, value)->{
 			Field field = ReflectionUtils.findField(ClienteModel.class, attribute);
 			field.setAccessible(true);
-			ReflectionUtils.setField(field, clienteModel, value);
+			var newValue = ReflectionUtils.getField(field, clienteModelOrigin);
+			ReflectionUtils.setField(field, clienteModel, newValue);
 		});
-		System.out.println("DEPOIS: "+clienteModel.toString());
+		return clienteRepository.save(clienteModel);
 	}
 	
 }
